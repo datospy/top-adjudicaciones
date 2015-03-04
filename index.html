@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+@author bauerpy
+!-->
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="css/nv.d3.css" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
+    <script src="js/nv.d3.js"></script>
+    <script src="js/nv.d3.js"></script>
+    <script src="js/stream_layers.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <style>
+        text {
+            font: 12px sans-serif;
+        }
+        svg {
+            display: block;
+        }
+        html, body, #chart, svg {
+            margin: 0px;
+            padding: 0px;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    
+    
+    <select id="anio"  onchange="traer()">
+  <option value="2010">2010</option>
+  <option value="2011">2011</option>
+  <option value="2012">2012</option>
+  <option value="2013">2013</option>
+  <option value="2014">2014</option>
+</select>
+    
+    
+
+<div id="chart" class='with-3d-shadow with-transitions'>
+    <svg></svg>
+</div>
+
+<script>
+var data = [];
+function traer(){
+    $.ajax({
+        url: "listar.php",
+        data: { 
+            'anio': $( "#anio" ).val()
+        },
+        context: document.body,
+        success: function(p_data){
+            data = eval(p_data);
+            dibujar();
+        }
+    });
+}
+var chart;
+nv.addGraph(function() {
+         chart = nv.models.multiBarHorizontalChart()
+            .x(function(d) { return d.proveedor_razon_social })
+            .y(function(d) { return d.monto })
+            .margin({top: 30, right: 20, bottom: 50, left: 175})
+            .barColor(d3.scale.category20().range())
+            .showControls(false);
+
+        chart.yAxis
+            .tickFormat(d3.format(',.2f'));
+
+        return chart;
+    });
+
+function dibujar(){
+     d3.select('#chart svg')
+            .datum(data)
+          .transition().duration(1000)
+            .call(chart);
+
+
+       nv.utils.windowResize(chart.update);
+}
+
+traer();
+</script>
+</body>
+</html>
