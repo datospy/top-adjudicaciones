@@ -5,7 +5,7 @@
 <html lang="es">
 <head>
     <meta charset="utf-8">
-    <title>Títulos Universitarios</title>
+    <title>Ranking de contrataciones públicas</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/nv.d3.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
@@ -21,7 +21,7 @@
 
       <ul class="tabs">
         <li><a href="#" class="activo">Top de empresas adjudicadas</a></li>
-        <li><a href="#">Top de montos de adjudicaciones</a></li>
+        <li><a href="#">Top de montos adjudicados</a></li>
       </ul>
 
         <div class="filtro padding10 mt20">
@@ -81,7 +81,7 @@
 
 
 <script>
-var data = [];
+var v_data = [];
 function traer(){
     $.ajax({
         url: "listar.php",
@@ -90,34 +90,52 @@ function traer(){
         },
         context: document.body,
         success: function(p_data){
-            data = eval(p_data);
+            v_data = eval(p_data);
+            for(var i in v_data){
+                v_data[0].values[i].monto_total = v_data[0].values[i].monto_total*1
+            }
             dibujar();
         }
     });
 }
 var chart;
-nv.addGraph(function() {
-         chart = nv.models.multiBarHorizontalChart()
-            .x(function(d) { return d.proveedor_razon_social })
-            .y(function(d) { return d.monto })
-            .margin({top: 30, right: 20, bottom: 50, left: 175})
-            .barColor(d3.scale.category20().range())
-            .showControls(false);
 
-        chart.yAxis
-            .tickFormat(d3.format(',.2f'));
 
-        return chart;
-    });
+
 
 function dibujar(){
-     d3.select('#chart svg')
-            .datum(data)
-          .transition().duration(1000)
-            .call(chart);
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarHorizontalChart()
+        .x(function(d) { return d.proveedor_razon_social })
+        .y(function(d) { return d.monto_total })
+        .margin({top: 30, right: 20, bottom: 50, left: 175})
+        .showValues(true)           //Show bar value next to each bar.
+        .tooltips(false)             //Show tooltips on hover.
+        .showControls(false);        //Allow user to switch between "Grouped" and "Stacked" mode.
+
+    chart.yAxis
+        .tickFormat(d3.format(',.f'));
+
+    d3.select('#chart svg')
+        .datum(v_data)
+        .call(chart);
+
+    nv.utils.windowResize(chart.update);
+        $(".nv-bar").each(function(i, elem) {
+    
+    $(elem).hover(function(event) {
+        var offset = $(this).offset();
+        nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].proveedor_razon_social + '<h><p>Usd. : ' + v_data[0].values[i].monto_usd + '</p><p>Gs. : ' + v_data[0].values[i].monto_pyg + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
+    }, function() {
+        nv.tooltip.cleanup();
+    });
+});
+
+    return chart;
+
+});
 
 
-       nv.utils.windowResize(chart.update);
 }
 
 traer();
