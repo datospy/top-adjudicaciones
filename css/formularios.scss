@@ -1,0 +1,292 @@
+//colores
+$color1: #f47920;
+$color2: #003767;
+//colores
+
+@mixin piecss() { 
+    behavior: url(../PIE.htc); 
+    position: relative; 
+}
+
+@mixin redondeado ($tl, $tr, $br, $bl) {
+    -webkit-border-radius: $tl $tr $br $bl;
+    -moz-border-radius: $tl $tr $br $bl;
+    border-radius: $tl $tr $br $bl;
+}
+
+@mixin gradientH ($inicio, $fin) {
+    background: $inicio;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from($inicio), to($fin));
+    background: -webkit-linear-gradient($inicio, $fin);
+    background: -moz-linear-gradient($inicio, $fin);
+    background: -ms-linear-gradient($inicio, $fin);
+    background: -o-linear-gradient($inicio, $fin);
+    background: linear-gradient($inicio, $fin);
+    -pie-background: linear-gradient($inicio, $fin);
+}
+
+@mixin gradientV ($inicio, $fin) { 
+    background: $inicio;
+    background: -webkit-gradient(linear, 0 0, 0 bottom, from($inicio), to($fin));
+    background: -webkit-linear-gradient($inicio, $fin);
+    background: -moz-linear-gradient($inicio, $fin);
+    background: -ms-linear-gradient($inicio, $fin);
+    background: -o-linear-gradient($inicio, $fin);
+    background: linear-gradient($inicio, $fin);
+    -pie-background: linear-gradient($inicio, $fin);
+}
+
+@mixin shadow($h,$v,$b,$s,$color) {
+    -webkit-box-shadow: $h $v $b $s $color;
+    -moz-box-shadow: $h $v $b $s $color;
+    box-shadow: $h $v $b $s $color;
+}
+@mixin shadowRGBA($h,$v,$b,$s,$r,$g,$b,$a) {
+    -webkit-box-shadow: $h $v $b $s rgba($r, $g, $b, $a);
+    -moz-box-shadow: $h $v $b $s rgba($r, $g, $b, $a);
+    box-shadow: $h $v $b $s rgba($r, $g, $b, $a);
+}
+
+@mixin innershadow($h,$v,$blur,$b,$color){
+    -webkit-box-shadow: inset $h $v $blur $b $color;
+    box-shadow: inset $h $v $blur $b $color;
+}
+
+@mixin glow($blur,$color) {
+    -webkit-box-shadow: 0px 0px $blur 0px $color;
+    -moz-box-shadow: 0px 0px $blur 0px $color;
+    box-shadow: 0px 0px $blur 0px $color;
+}
+
+@mixin txtShadow($color){
+    text-shadow: 1px 1px 0px $color;
+}
+
+@mixin easing($seg) {
+   transition-duration: $seg;
+    -webkit-transition-duration: $seg;
+    -moz-transition-duration: $seg; 
+    -ms-transition-duration: $seg; 
+    -o-transition-duration: $seg;
+}
+
+@mixin gradiente($inicio,$fin){
+    background: $inicio; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2RlNmYxYiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlYzgxMTAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top,  $inicio 0%, $fin 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$inicio), color-stop(100%,$fin)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  $inicio 0%,$fin 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  $inicio 0%,$fin 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  $inicio 0%,$fin 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  $inicio 0%,$fin 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$inicio', endColorstr='$fin',GradientType=0 ); /* IE6-8 */
+
+}
+
+
+
+// -------------------------------------------------------------------------- 
+
+
+fieldset{
+    padding: 45px 20px 20px 20px;
+    background-color: #EEEEEE;
+    position: relative;
+ 
+    legend{
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-size: 20px;
+    }
+}
+
+label{
+    font-weight: bold;
+    line-height: 150%;
+    display: block;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    display: inline-block;
+    height: 20px;
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 20px;
+    color: #666;
+    // vertical-align: middle;
+    width: 80%;
+    
+    background-color: #FFF;
+    border: 1px solid #BBB;
+
+    -webkit-box-shadow: inset 1px 1px 3px rgba(0,0,0,.15) inset,0 1px 0 #fff;
+    -moz-box-shadow: inset 1px 1px 3px rgba(0,0,0,.15) inset,0 1px 0 #fff;
+    box-shadow: inset 1px 1px 3px rgba(0,0,0,.15) inset,0 1px 0 #fff;
+
+    -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+    -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+    transition: border linear 0.2s, box-shadow linear 0.2s;
+    
+    @include redondeado(4px,4px,4px,4px);
+    
+	-webkit-transition: .2s all ease-in;
+	-transition: .2s all ease-in;
+
+    &:focus{
+        border-color: rgba(82, 168, 236, 0.8);
+        outline: 0;
+        outline: thin dotted \9;
+        /* IE6-9 */
+
+        border:1px solid rgba(82, 168, 236, 0.8);
+        outline:0;
+        -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+		-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+    }
+}
+textarea{
+    height: 100px;
+    resize: vertical;
+    width: 220px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ textarea  { margin-left: 1px;  } 
+}
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 4px 0 0;
+    margin-top: 1px \9;
+    *margin-top: 0;
+    line-height: normal;
+}
+
+input[type="file"],
+input[type="image"],
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="radio"],
+input[type="checkbox"] {
+    width: auto;
+}
+
+select,
+input[type="file"] {
+    height: 30px;
+    /* In IE7, the height of the select element cannot be changed by height, only font-size */
+    
+    *margin-top: 4px;
+    /* For IE7, add top margin to align select with labels */
+    
+    line-height: 30px;
+}
+
+select {
+    width: 233px;
+    background-color: #FFF;
+    border: 1px solid #BBB;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ select  { margin-left: 2px;  }
+}
+
+select[multiple],
+select[size] {
+    height: auto;
+}
+
+select:focus,
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+    outline: thin dotted #333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    color: #999999;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #999999;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #999999;
+}
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly],
+select[readonly],
+textarea[readonly] {
+    cursor: not-allowed;
+    background-color: #eeeeee;
+}
+
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"][readonly],
+input[type="checkbox"][readonly] {
+    background-color: transparent;
+}
+
+input[type=submit],
+input[type=button]{ 
+    border: 0; 
+    cursor: pointer;
+    font-weight: bolder;
+    text-decoration: none;
+    
+    padding: 4px 20px;
+    margin-right: 5px;
+    font-size: 12px;
+    line-height: 20px;
+    
+
+    @include redondeado(4px,4px,4px,4px);
+    @include piecss();
+    
+    &:hover{
+        @include redondeado(4px,4px,4px,4px);
+        @include shadow(0px,2px,2px,0px,#999);
+        @include piecss();
+    }
+}
+input[type=submit]{
+    border: 1px solid #87602B;
+    color: #FFF !important;
+    background-color: #9E7132;
+    text-shadow: -1px -1px 0px #87602B;
+    filter: dropshadow(color=#333, offx=-1, offy=-1);
+}
+input[type=button]{
+    border: 1px solid #AAA;
+    color: #333 !important;
+    background: url('../images/bgBtn2.png') repeat-x left center;
+    text-shadow: -1px -1px 0px #FFF;
+    filter: dropshadow(color=#FFF, offx=-1, offy=-1);
+}
