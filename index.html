@@ -18,10 +18,10 @@
     <div class="wrap pt20 pb20">
 
       <h1 class="txtC mb30">Ranking de contrataciones públicas</h1>
-
+      <h4 class="txtC">Algún texto que explique la imagen, ej. los montos en el gráfico están expresados en millones y son en guaraníes, al ubicar el puntero se puede ver mayor detalle y los montos con expresado con todos los ceros.</h4>
       <ul class="tabs">
-        <li><a href="#" class="activo">Top de empresas adjudicadas</a></li>
-        <li><a href="#">Top de montos adjudicados</a></li>
+        <li><a href="#" id="empresas" class="activo" onClick="cambiar('empresas')">Top de empresas adjudicadas</a></li>
+        <li><a href="#" id="adjudicados" onClick="cambiar('adjudicados')">Top de montos adjudicados</a></li>
       </ul>
 
         <div class="filtro padding10 mt20">
@@ -30,30 +30,49 @@
             <legend>Filtros</legend>
               <div class="cell">
                 <label for="">Institución convocante</label>
-                <select name="" id="">
-                  <option value="">Todos</option>
+                <select name="" onchange="traer()" id="convocante">
+                  <option value="todos">Todos</option>
                 </select>
               </div>
               <div class="cell">
                 <label for="">Categoría</label>
-                <select name="" id="">
-                  <option value="">Todos</option>
+                <select name="" onchange="traer()" id="categoria">
+                  <option value="todos">Todos</option>
                 </select>
               </div>
               <div class="cell">
-                <label for="">Tipos de adjudicación</label>
-                <select name="" id="">
-                  <option value="">Todos</option>
+                <label for="">Tipos de procedimiento</label>
+                <select name="" onchange="traer()" id="tipo">
+                  <option value="todos">Todos</option>
                 </select>
               </div>
               <div class="cell">
-                <label for="">Año</label>
-                <select id="anio"  onchange="traer()">
+                <label for="">Desde</label>
+                <select id="anio_inicio"  onchange="traer()" style="width:  175px;">
                   <option value="2010">2010</option>
                   <option value="2011">2011</option>
                   <option value="2012">2012</option>
                   <option value="2013">2013</option>
                   <option value="2014">2014</option>
+                </select>
+              </div> 
+            <div class="cell">
+                <label for="">Hasta</label>
+                <select id="anio_fin"  onchange="traer()" style="width:  175px;">
+                  <option value="2010">2010</option>
+                  <option value="2011">2011</option>
+                  <option value="2012">2012</option>
+                  <option value="2013">2013</option>
+                  <option value="2014">2014</option>
+                </select>
+              </div>
+               <div class="cell" >
+                <label for="">Top</label>
+                <select id="top"  onchange="traer()" style="width:  70px;">
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
                 </select>
               </div>
             </fieldset>
@@ -70,10 +89,10 @@
 
         </div>
 
-      
+      <p class="txtC"><strong> *Fuente de datos: </strong>  <a href="https://www.contrataciones.gov.py/datos/contratos"> Contratos</a> de la DNCP.</p>
 
       <p class="txtC">
-        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>.
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><a href="http://datos.org.py">Datos.org.py</a><!--<br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>!-->.
       </p>
 
     </div>
@@ -81,51 +100,134 @@
 
 
 <script>
+    
 var v_data = [];
+
+var local_format = d3.locale({
+             decimal: ",",
+             thousands: ".",
+             grouping: [3],
+             currency: ["", " €"],
+             dateTime: "%A, %e de %B de %Y, %X",
+             date: "%d/%m/%Y",
+             time: "%H:%M:%S",
+             periods: ["AM", "PM"],
+             days: ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"],
+             shortDays: ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"],
+             months: ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"],
+             shortMonths: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
+     });
+     
+var lugar = 'empresas';     
+function cambiar(p_lugar){
+    lugar = p_lugar;
+    if(lugar == 'empresas'){
+        $( "#empresas" ).addClass('activo');
+        $( "#adjudicados" ).removeClass('activo');
+    }else{
+        $( "#empresas" ).removeClass('activo');
+        $( "#adjudicados" ).addClass('activo');
+    }
+    traer();
+}
+     
 function traer(){
     $.ajax({
         url: "listar.php",
         data: { 
-            'anio': $( "#anio" ).val()
+            'lugar':lugar,
+            'convocante':$( "#convocante" ).val(),
+            'categoria':$( "#categoria" ).val(),
+            'tipo':$( "#tipo" ).val(),
+            'anio_inicio': $( "#anio_inicio" ).val(),
+            'anio_fin': $( "#anio_fin" ).val(),
+            'top': $( "#top" ).val()
         },
         context: document.body,
         success: function(p_data){
             v_data = eval(p_data);
-            for(var i in v_data){
+            for(var i in v_data[0].values){
                 v_data[0].values[i].monto_total = v_data[0].values[i].monto_total*1
             }
             dibujar();
         }
     });
 }
+combo('convocante');
+combo('categoria');
+combo('tipo');
+function combo(select){
+    $.ajax({
+        url: "select-option.php",
+        data: { 
+            'select':select
+        },
+        context: document.body,
+        success: function(p_data){
+            var v_data = eval(p_data);
+            for(var i in v_data){
+                switch(select) {
+                    case 'convocante':
+                        $("#convocante").append(new Option(v_data[i].convocante_nombre, v_data[i].convocante_nombre));
+                        break;
+                    case 'categoria':
+                        $("#categoria").append(new Option(v_data[i].categoria_nombre, v_data[i].categoria_id));
+                        break;
+                    case 'tipo':
+                        $("#tipo").append(new Option(v_data[i].tipo_procedimiento_nombre, v_data[i].tipo_procedimiento_id));
+                        break;
+                }
+            }
+        }
+    });
+}
+
+
 var chart;
 
 
 
 
 function dibujar(){
+  if(v_data[0].values.length<1){
+      d3.selectAll("svg > *").remove();
+  }
   nv.addGraph(function() {
     var chart = nv.models.multiBarHorizontalChart()
-        .x(function(d) { return d.proveedor_razon_social })
+        .x(function(d) { return d.label })
         .y(function(d) { return d.monto_total })
         .margin({top: 30, right: 20, bottom: 50, left: 175})
+        .barColor(d3.scale.category20().range())
         .showValues(true)           //Show bar value next to each bar.
         .tooltips(false)             //Show tooltips on hover.
         .showControls(false);        //Allow user to switch between "Grouped" and "Stacked" mode.
-
+    
+    var formato = local_format.numberFormat(',');
     chart.yAxis
-        .tickFormat(d3.format(',.f'));
+        .tickFormat(formato);
+
+chart.valueFormat(formato);
 
     d3.select('#chart svg')
         .datum(v_data)
         .call(chart);
+     
+     
+     
 
     nv.utils.windowResize(chart.update);
+    console.log(v_data[0].values.length);
+
+    
         $(".nv-bar").each(function(i, elem) {
     
     $(elem).hover(function(event) {
         var offset = $(this).offset();
-        nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].proveedor_razon_social + '<h><p>Usd. : ' + v_data[0].values[i].monto_usd + '</p><p>Gs. : ' + v_data[0].values[i].monto_pyg + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
+        if(lugar == 'empresas'){
+            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].label + '<h><p>Usd. : ' + formato(v_data[0].values[i].monto_usd) + '</p><p>Gs. : ' + formato(v_data[0].values[i].monto_pyg) + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
+        }else{
+            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].convocante_nombre + '<h><p>'+v_data[0].values[i].moneda_codigo+' : ' + formato(v_data[0].values[i].monto_total_2) + '</p><p>LLamado : ' + v_data[0].values[i].id_llamado + '</p>');
+        }           
     }, function() {
         nv.tooltip.cleanup();
     });
