@@ -2043,7 +2043,7 @@ nv.models.bulletChart = function() {
             return '<h3>' + x + '</h3>' +
                 '<p>' + y + '</p>'
         }
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro.'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide')
         ;
 
@@ -2292,7 +2292,7 @@ nv.models.cumulativeLineChart = function() {
         , id = lines.id()
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro'
         , average = function(d) { return d.average }
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , transitionDuration = 250
@@ -3220,7 +3220,7 @@ nv.models.discreteBarChart = function() {
         }
         , x
         , y
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'beforeUpdate','renderEnd')
         , duration = 250
         ;
@@ -3885,7 +3885,7 @@ nv.models.historicalBarChart = function(bar_model) {
         , y
         , state = {}
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , transitionDuration = 250
         ;
@@ -4744,7 +4744,7 @@ nv.models.lineChart = function() {
         , y
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , duration = 250
         ;
@@ -5185,7 +5185,7 @@ nv.models.linePlusBarChart = function() {
         , y2
         , y3
         , y4
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush', 'stateChange', 'changeState')
         , transitionDuration = 0
         , state = nv.utils.state()
@@ -5791,7 +5791,7 @@ nv.models.lineWithFocusChart = function() {
             return '<h3>' + key + '</h3>' +
                 '<p>' +  y + ' at ' + x + '</p>'
         }
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush', 'stateChange', 'changeState')
         , transitionDuration = 250
         , state = nv.utils.state()
@@ -6641,7 +6641,7 @@ nv.models.multiBarChart = function() {
         , y //can be accessed via chart.yScale()
         , state = nv.utils.state()
         , defaultState = null
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
         , controlWidth = function() { return showControls ? 180 : 0 }
         , duration = 250
@@ -7430,7 +7430,7 @@ nv.models.multiBarHorizontalChart = function() {
         , y //can be accessed via chart.yScale()
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         , controlWidth = function() { return showControls ? 180 : 0 }
         , duration = 250
@@ -7804,7 +7804,7 @@ nv.models.multiChart = function() {
         },
         x,
         y,
-        noData = 'No Data Available.',
+        noData = 'Prueba otra combinación del filtro',
         yDomain1,
         yDomain2,
         getX = function(d) { return d.x },
@@ -9026,7 +9026,7 @@ nv.models.pieChart = function() {
         }
         , state = nv.utils.state()
         , defaultState = null
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         , duration = 250
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         ;
@@ -9751,7 +9751,7 @@ nv.models.scatterChart = function() {
         , state = nv.utils.state()
         , defaultState = null
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState', 'renderEnd')
-        , noData       = "No Data Available."
+        , noData       = "Prueba otra combinación del filtro"
         , duration = 250
         ;
 
@@ -10302,7 +10302,7 @@ nv.models.sparklinePlus = function() {
         , showValue = true
         , alignValue = true
         , rightAlignValue = false
-        , noData = "No Data Available."
+        , noData = "Prueba otra combinación del filtro"
         ;
 
     function chart(selection) {
@@ -10865,7 +10865,7 @@ nv.models.stackedAreaChart = function() {
         , yAxisTickFormat = d3.format(',.2f')
         , state = nv.utils.state()
         , defaultState = null
-        , noData = 'No Data Available.'
+        , noData = 'Prueba otra combinación del filtro'
         , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'stateChange', 'changeState','renderEnd')
         , controlWidth = 250
         , cData = ['Stacked','Stream','Expanded']

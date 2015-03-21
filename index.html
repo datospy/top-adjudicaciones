@@ -6,35 +6,82 @@
 <head>
     <meta charset="utf-8">
     <title>Ranking de contrataciones públicas</title>
+    <link rel="stylesheet" href="js/jquery-ui.min.css">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/nv.d3.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.2/d3.min.js" charset="utf-8"></script>
     <script src="js/nv.d3.js"></script>
     <script src="js/stream_layers.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
 </head>
+
+<style type="text/css">
+  #empresas-descripcion{
+    margin-top: 30px;
+
+  }
+
+  #montos-descripcion {
+    margin-top: 30px;
+  }
+
+
+</style>
 <body>
 
     <div class="wrap pt20 pb20">
 
       <h1 class="txtC mb30">Ranking de contrataciones públicas</h1>
-      <h4 class="txtC">Algún texto que explique la imagen, ej. los montos en el gráfico están expresados en millones y son en guaraníes, al ubicar el puntero se puede ver mayor detalle y los montos con expresado con todos los ceros.</h4>
+      <div class="clearfix">
+        <div class="floatL" style="width: 45%; margin-right: 5%;">
+          La Dirección Nacional de Contrataciones Públicas (DNCP) es la entidad administrativa encargada de la regulación y verificación de las compras gubernamentales. El proceso por el cual se realiza una contratación pública implica la planificación, la convocatoria, la adjudicación y finalmente la contratación.
+        </div>
+        <div class="floatR" style="width: 45%; margin-right: 5%;">
+          En esta visualización podés explorar el ranking de empresas adjudicadas por las instituciones del Estado Paraguayo y el top de las contrataciones únicas por mayor monto.
+        </div>
+      </div>
+      
+      <table class="tips mb20 mt20">
+        <tr>
+          <td>Podés filtrar por Institución, Categoría, Procedimiento e indicar el rango de fecha.</td>
+          <td>Mirá el detalle de cada información pasando el cursor por cada barra.</td>
+          <td class="txtC">
+            <a href="#" id="open" class="btn entero">Copia e inserta en la web</a>
+            <div id="overlay"></div>
+            <div id="info">
+              <div id="results">
+                <p>Copie el siguiente código:</p>
+                <textarea name="" id="" cols="50" rows="10"><div class="wrap1" style=" width: 3000px;height: 600px;padding: 0;overflow: hidden;"><iframe frameborder="0" id="frame" scrolling="no" src="http://visualizaciones.datos.org.py/top-adjudicaciones/" style="  -ms-zoom: 0.5;-ms-transform-origin: 0 0;-moz-transform: scale(0.5);-moz-transform-origin: 0px 50px;-o-transform: scale(0.5);-o-transform-origin: 0px 50px;-webkit-transform: scale(0.5);-webkit-transform-origin: 0 0;width: 1800px;height: 1200px;overflow: hidden;"></iframe></div></textarea>
+                <p style="margin-top:20px; text-align:right;"><a href="#" id="close" class="btn">Cerrar</a></p>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+
+
+    </h4>
       <ul class="tabs">
         <li><a href="#" id="empresas" class="activo" onClick="cambiar('empresas')">Top de empresas adjudicadas</a></li>
         <li><a href="#" id="adjudicados" onClick="cambiar('adjudicados')">Top de montos adjudicados</a></li>
       </ul>
 
+      <div id="empresas-descripcion" class="txtC">Las empresas adjudicadas son las que obtuvieron la licitación para proveer productos o servicios a las diferentes instituciones gubernamentales.  
+Se puede visualizar la suma (en millones de guaranies) de todas las adjudicaciones de cada empresa.</div>
+      <div id="montos-descripcion" class="txtC">En esta visualización se pueden ver las empresas adjudicadas con mayor monto en una contratación.<br>El monto está expresado en millones de guaraníes.</div>
+
         <div class="filtro padding10 mt20">
             <!-- filtros -->
             <fieldset class="fila">
             <legend>Filtros</legend>
-              <div class="cell">
+              <div class="cell ui-widget">
                 <label for="">Institución convocante</label>
                 <select name="" onchange="traer()" id="convocante">
                   <option value="todos">Todos</option>
                 </select>
               </div>
-              <div class="cell">
+              <div class="cell ui-widget">
                 <label for="">Categoría</label>
                 <select name="" onchange="traer()" id="categoria">
                   <option value="todos">Todos</option>
@@ -70,7 +117,7 @@
                 <label for="">Top</label>
                 <select id="top"  onchange="traer()" style="width:  70px;">
                   <option value="5">5</option>
-                  <option value="10">10</option>
+                  <option value="10" selected>10</option>
                   <option value="20">20</option>
                   <option value="50">50</option>
                 </select>
@@ -83,16 +130,16 @@
 
             <!-- graficos -->
             <div id="chart" class='with-3d-shadow with-transitions'>
-                <svg style="height:500px"></svg>
+                <svg style="height:700px"></svg>
             </div>
             <!-- graficos -->
 
         </div>
 
-      <p class="txtC"><strong> *Fuente de datos: </strong>  <a href="https://www.contrataciones.gov.py/datos/contratos"> Contratos</a> de la DNCP.</p>
+      <p class="txtC"><strong> *Fuente de datos: </strong><br><a href="https://www.contrataciones.gov.py/datos/contratos"> Contratos</a> de la DNCP.</p>
 
       <p class="txtC">
-        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><a href="http://datos.org.py">Datos.org.py</a><!--<br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>!-->.
+        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a> <a href="http://datos.org.py">Datos.org.py</a><!--<br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>!-->.
       </p>
 
     </div>
@@ -100,7 +147,25 @@
 
 
 <script>
+
+$(document).ready(function() {
     
+    $("#open").click(function(){
+      $('#overlay, #info').animate({'opacity':'0.7'}, 300, 'linear');
+        $('#info').animate({'opacity':'1.00'},300,'linear');
+        $('#overlay, #info').css('display','block');
+        $('#info').css({'left':(($(document).width()/2)-($('#info').width()/2))});
+        $('#info').css({'top':(($(document).height()/4)-($('#info').height()/4)-50)});
+      });
+    
+    $('#close').click(function(){
+      $('#overlay, #info').animate({'opacity':'0'}, 300, 'linear', function(){
+        $('#overlay, #info').css('display','none');
+      });
+    });
+});
+
+
 var v_data = [];
 
 var local_format = d3.locale({
@@ -118,16 +183,26 @@ var local_format = d3.locale({
              shortMonths: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
      });
      
-var lugar = 'empresas';     
+var lugar = 'empresas';  
+
+$("#montos-descripcion").hide();  
 function cambiar(p_lugar){
     lugar = p_lugar;
     if(lugar == 'empresas'){
         $( "#empresas" ).addClass('activo');
         $( "#adjudicados" ).removeClass('activo');
+        $("#montos-descripcion").hide();
+        $("#empresas-descripcion").show();
+
     }else{
         $( "#empresas" ).removeClass('activo');
         $( "#adjudicados" ).addClass('activo');
+        $("#empresas-descripcion").hide();
+        $("#montos-descripcion").show();
+        
     }
+
+
     traer();
 }
      
@@ -150,6 +225,7 @@ function traer(){
                 v_data[0].values[i].monto_total = v_data[0].values[i].monto_total*1
             }
             dibujar();
+            $(".nv-legendWrap").hide();
         }
     });
 }
@@ -226,7 +302,7 @@ chart.valueFormat(formato);
         if(lugar == 'empresas'){
             nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].label + '<h><p>Usd. : ' + formato(v_data[0].values[i].monto_usd) + '</p><p>Gs. : ' + formato(v_data[0].values[i].monto_pyg) + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
         }else{
-            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].convocante_nombre + '<h><p>'+v_data[0].values[i].moneda_codigo+' : ' + formato(v_data[0].values[i].monto_total_2) + '</p><p>LLamado : ' + v_data[0].values[i].id_llamado + '</p>');
+            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].convocante_nombre + '<h><p>'+v_data[0].values[i].moneda_codigo+' : ' + formato(v_data[0].values[i].monto_total_2) + '</p><p>LLamado : ' + v_data[0].values[i].id_llamado + '</p><p> Empresa adjudicada: ' + v_data[0].values[i].proveedor_razon_social + '</p>' );
         }           
     }, function() {
         nv.tooltip.cleanup();
@@ -238,9 +314,179 @@ chart.valueFormat(formato);
 });
 
 
+
+
+
 }
 
 traer();
 </script>
+
+
+ <script>
+  (function( $ ) {
+    $.widget( "custom.combobox", {
+      _create: function() {
+        this.wrapper = $( "<span>" )
+          .addClass( "custom-combobox" )
+          .insertAfter( this.element );
+ 
+        this.element.hide();
+        this._createAutocomplete();
+        this._createShowAllButton();
+      },
+ 
+      _createAutocomplete: function() {
+        var selected = this.element.children( ":selected" ),
+          value = selected.val() ? selected.text() : "";
+ 
+        this.input = $( "<input>" )
+          .appendTo( this.wrapper )
+          .val( value )
+          .attr( "title", "" )
+          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .autocomplete({
+            delay: 0,
+            minLength: 0,
+            source: $.proxy( this, "_source" )
+          })
+          .tooltip({
+            tooltipClass: "ui-state-highlight"
+          });
+ 
+        this._on( this.input, {
+          autocompleteselect: function( event, ui ) {
+            ui.item.option.selected = true;
+            this._trigger( "select", event, {
+              item: ui.item.option
+            });
+          },
+ 
+          autocompletechange: "_removeIfInvalid"
+        });
+      },
+ 
+      _createShowAllButton: function() {
+        var input = this.input,
+          wasOpen = false;
+ 
+        $( "<a>" )
+          .attr( "tabIndex", -1 )
+          .attr( "title", "Show All Items" )
+          .tooltip()
+          .appendTo( this.wrapper )
+          .button({
+            icons: {
+              primary: "ui-icon-triangle-1-s"
+            },
+            text: false
+          })
+          .removeClass( "ui-corner-all" )
+          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .mousedown(function() {
+            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
+          })
+          .click(function() {
+            input.focus();
+ 
+            // Close if already visible
+            if ( wasOpen ) {
+              return;
+            }
+ 
+            // Pass empty string as value to search for, displaying all results
+            input.autocomplete( "search", "" );
+          });
+      },
+ 
+      _source: function( request, response ) {
+        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+        response( this.element.children( "option" ).map(function() {
+          var text = $( this ).text();
+          if ( this.value && ( !request.term || matcher.test(text) ) )
+            return {
+              label: text,
+              value: text,
+              option: this
+            };
+        }) );
+      },
+ 
+      _removeIfInvalid: function( event, ui ) {
+ 
+        // Selected an item, nothing to do
+        if ( ui.item ) {
+          return;
+        }
+ 
+        // Search for a match (case-insensitive)
+        var value = this.input.val(),
+          valueLowerCase = value.toLowerCase(),
+          valid = false;
+        this.element.children( "option" ).each(function() {
+          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
+            this.selected = valid = true;
+            return false;
+          }
+        });
+ 
+        // Found a match, nothing to do
+        if ( valid ) {
+          return;
+        }
+ 
+        // Remove invalid value
+        this.input
+          .val( "" )
+          .attr( "title", value + " didn't match any item" )
+          .tooltip( "open" );
+        this.element.val( "" );
+        this._delay(function() {
+          this.input.tooltip( "close" ).attr( "title", "" );
+        }, 2500 );
+        this.input.autocomplete( "instance" ).term = "";
+      },
+ 
+      _destroy: function() {
+        this.wrapper.remove();
+        this.element.show();
+      }
+    });
+  })( jQuery );
+ 
+  $(function() {
+    $( "#categoria" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#categoria" ).toggle();
+    });
+  });
+
+
+   $(function() {
+    $( "#convocante" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#convocante" ).toggle();
+    });
+  });
+
+
+
+
+$("#categoria").combobox({ 
+    select: function (event, ui) { 
+      traer();
+        
+    } 
+});
+
+
+$("#convocante").combobox({ 
+    select: function (event, ui) { 
+      traer();
+        
+    } 
+});
+
+  </script>
 </body>
 </html>
