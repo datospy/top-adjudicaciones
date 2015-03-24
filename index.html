@@ -51,9 +51,8 @@
             <div id="overlay"></div>
             <div id="info">
               <div id="results">
-                <p>Copie el siguiente código:</p>
-                <textarea name="" id="" cols="50" rows="10"><div class="wrap1" style=" width: 3000px;height: 600px;padding: 0;overflow: hidden;"><iframe frameborder="0" id="frame" scrolling="no" src="http://visualizaciones.datos.org.py/top-adjudicaciones/" style="  -ms-zoom: 0.5;-ms-transform-origin: 0 0;-moz-transform: scale(0.5);-moz-transform-origin: 0px 50px;-o-transform: scale(0.5);-o-transform-origin: 0px 50px;-webkit-transform: scale(0.5);-webkit-transform-origin: 0 0;width: 1800px;height: 1200px;overflow: hidden;"></iframe></div></textarea>
-                <p style="margin-top:20px; text-align:right;"><a href="#" id="close" class="btn">Cerrar</a></p>
+                  <div id="texto-contenido"></div>
+                  <p style="margin-top:20px; text-align:right;"><a href="#" id="close" class="btn">Cerrar</a></p>
               </div>
             </div>
           </td>
@@ -151,20 +150,24 @@ Se puede visualizar la suma (en millones de guaranies) de todas las adjudicacion
 $(document).ready(function() {
     
     $("#open").click(function(){
-      $('#overlay, #info').animate({'opacity':'0.7'}, 300, 'linear');
-        $('#info').animate({'opacity':'1.00'},300,'linear');
-        $('#overlay, #info').css('display','block');
-        $('#info').css({'left':(($(document).width()/2)-($('#info').width()/2))});
-        $('#info').css({'top':(($(document).height()/4)-($('#info').height()/4)-50)});
+        mostrarVentana('<p>Copie el siguiente código:</p><textarea name=""  cols="50" rows="10"><div class="wrap1" style=" width: 3000px;height: 600px;padding: 0;overflow: hidden;"><iframe frameborder="0" id="frame" scrolling="no" src="http://visualizaciones.datos.org.py/top-adjudicaciones/" style="  -ms-zoom: 0.5;-ms-transform-origin: 0 0;-moz-transform: scale(0.5);-moz-transform-origin: 0px 50px;-o-transform: scale(0.5);-o-transform-origin: 0px 50px;-webkit-transform: scale(0.5);-webkit-transform-origin: 0 0;width: 1800px;height: 1200px;overflow: hidden;"></iframe></div></textarea>',$(this));
       });
-    
     $('#close').click(function(){
       $('#overlay, #info').animate({'opacity':'0'}, 300, 'linear', function(){
         $('#overlay, #info').css('display','none');
+        $('#texto-contenido').empty();
       });
     });
 });
 
+function mostrarVentana(valor, scope){
+        $('#texto-contenido').prepend( valor );
+       $('#overlay, #info').animate({'opacity':'0.7'}, 300, 'linear');
+        $('#info').animate({'opacity':'1.00'},300,'linear');
+        $('#overlay, #info').css('display','block');
+        $('#info').css({'left':(($(document).width()/2)-($('#info').width()/2))});
+        $('#info').css({'top':scope.offset().top});
+}
 
 var v_data = [];
 
@@ -193,7 +196,6 @@ function cambiar(p_lugar){
         $( "#adjudicados" ).removeClass('activo');
         $("#montos-descripcion").hide();
         $("#empresas-descripcion").show();
-
     }else{
         $( "#empresas" ).removeClass('activo');
         $( "#adjudicados" ).addClass('activo');
@@ -201,8 +203,6 @@ function cambiar(p_lugar){
         $("#montos-descripcion").show();
         
     }
-
-
     traer();
 }
      
@@ -258,11 +258,7 @@ function combo(select){
     });
 }
 
-
 var chart;
-
-
-
 
 function dibujar(){
   if(v_data[0].values.length<1){
@@ -287,27 +283,38 @@ chart.valueFormat(formato);
     d3.select('#chart svg')
         .datum(v_data)
         .call(chart);
-     
-     
-     
 
     nv.utils.windowResize(chart.update);
-    console.log(v_data[0].values.length);
 
     
-        $(".nv-bar").each(function(i, elem) {
+    $(".nv-bar").each(function(i, elem) {
+        $(elem).unbind();
     
-    $(elem).hover(function(event) {
-        var offset = $(this).offset();
-        if(lugar == 'empresas'){
-            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].label + '<h><p>Usd. : ' + formato(v_data[0].values[i].monto_usd) + '</p><p>Gs. : ' + formato(v_data[0].values[i].monto_pyg) + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
-        }else{
-            nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].convocante_nombre + '<h><p>'+v_data[0].values[i].moneda_codigo+' : ' + formato(v_data[0].values[i].monto_total_2) + '</p><p>LLamado : ' + v_data[0].values[i].id_llamado + '</p><p> Empresa adjudicada: ' + v_data[0].values[i].proveedor_razon_social + '</p>' );
-        }           
-    }, function() {
-        nv.tooltip.cleanup();
+            $(elem).hover(function(event) {
+                //var offset = $(this).offset();
+                if(lugar == 'empresas'){
+                    nv.tooltip.show([$(this).offset().left, $(this).offset().top+30],'<h3>' + v_data[0].values[i].label + '<h><p>Gs. : ' + formato(v_data[0].values[i].monto_total*1000000) + '</p><p>Cant. Contratos: ' + v_data[0].values[i].cant + '</p>');
+                }else{
+                    nv.tooltip.show([$(this).offset().left, $(this).offset().top],'<h3>' + v_data[0].values[i].convocante_nombre + '<h><p>'+v_data[0].values[i].moneda_codigo+' : ' + formato(v_data[0].values[i].monto_total_2) + '</p><p>LLamado : ' + v_data[0].values[i].id_llamado + '</p><p> Empresa adjudicada: ' + v_data[0].values[i].proveedor_razon_social + '</p>' );
+                }           
+            }, function() {
+                nv.tooltip.cleanup();
+            });
+            if(lugar == 'empresas'){
+                var contenido = '<div style="height:150px; overflow:auto;"><table><tr><td>Id llamado</td><td>Cod. Cont.</td><td>Moneda</td><td>Monto</td></tr>';
+                
+                for(var z in v_data[0].values[i].llamados){
+                    contenido += '<tr><td>'+v_data[0].values[i].llamados[z].id_llamado+'</td><td>'+v_data[0].values[i].llamados[z].codigo_contratacion+'</td><td>'+v_data[0].values[i].llamados[z].moneda_codigo+'</td><td>'+formato(v_data[0].values[i].llamados[z].monto_adjudicado*1)+'</td></tr>';
+                }
+                    
+                contenido += '</table></div>';
+                $(elem).click(function(){
+                    
+                    mostrarVentana(contenido, $(this));
+                  });
+          }
+
     });
-});
 
     return chart;
 
@@ -321,7 +328,6 @@ chart.valueFormat(formato);
 
 traer();
 </script>
-
 
  <script>
   (function( $ ) {

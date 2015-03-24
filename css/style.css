@@ -252,7 +252,7 @@ a.btn.entero {
   -khtml-opacity: 0;
   opacity: 0;
   background-color: #fff;
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   z-index: 50;
