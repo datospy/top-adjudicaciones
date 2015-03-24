@@ -43,7 +43,7 @@
     <div class="wrap pt20 pb20">
 
       <h1 class="txtC mb30">Ranking de contrataciones públicas</h1>
-      <div class="clearfix">
+      <div class="clearfix mb20">
         <div class="floatL" style="width: 45%; margin-right: 5%;">
           La Dirección Nacional de Contrataciones Públicas (DNCP) es la entidad administrativa encargada de la regulación y verificación de las compras gubernamentales. El proceso por el cual se realiza una contratación pública implica la planificación, la convocatoria, la adjudicación y finalmente la contratación.
         </div>
@@ -51,29 +51,10 @@
           En esta visualización podés explorar el ranking de empresas adjudicadas por las instituciones del Estado Paraguayo y el top de las contrataciones únicas por mayor monto.
         </div>
       </div>
-      
-      <table class="tips mb20 mt20">
-        <tr>
-          <td>Podés filtrar por Institución, Categoría, Procedimiento e indicar el rango de fecha.</td>
-          <td>Mirá el detalle de cada información pasando el cursor por cada barra.</td>
-          <td class="txtC">
-            <a href="#" id="open" class="btn entero">Copia e inserta en la web</a>
-            <div id="overlay"></div>
-            <div id="info">
-              <div id="results">
-                  <div id="texto-contenido"></div>
-                  <p style="margin-top:20px; text-align:right;"><a href="#" id="close" class="btn">Cerrar</a></p>
-              </div>
-            </div>
-          </td>
-        </tr>
-      </table>
 
-
-    </h4>
-      <ul class="tabs">
-        <li><a href="#" id="empresas" class="activo" onClick="cambiar('empresas')">Top de empresas adjudicadas</a></li>
-        <li><a href="#" id="adjudicados" onClick="cambiar('adjudicados')">Top de montos adjudicados</a></li>
+      <ul class="tabs" id="tabs">
+        <li><a href="#tabs" id="empresas" class="activo" onClick="cambiar('empresas')">Top de empresas adjudicadas</a></li>
+        <li><a href="#tabs" id="adjudicados" onClick="cambiar('adjudicados')">Top de montos adjudicados</a></li>
       </ul>
 
       <div id="empresas-descripcion" class="txtC">Las empresas adjudicadas son las que obtuvieron la licitación para proveer productos o servicios a las diferentes instituciones gubernamentales.  
@@ -135,6 +116,7 @@ Se puede visualizar la suma (en millones de guaranies) de todas las adjudicacion
             <!-- filtros -->
         </div>
 
+
         <div class="padding10">
 
             <!-- graficos -->
@@ -145,11 +127,47 @@ Se puede visualizar la suma (en millones de guaranies) de todas las adjudicacion
 
         </div>
 
-      <p class="txtC"><strong> *Fuente de datos: </strong><br><a href="https://www.contrataciones.gov.py/datos/contratos"> Contratos</a> de la DNCP.</p>
 
-      <p class="txtC">
-        <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a> <a href="http://datos.org.py">Datos.org.py</a><!--<br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>!-->.
-      </p>
+        <table class="ayuda mb20 mt20">
+        <tr>
+          <td class="uno">Podés filtrar por Institución, Categoría, Procedimiento e indicar el rango de fecha.</td>
+          <td class="dos">Mirá el detalle de cada información pasando el cursor por cada barra.</td>
+          <td class="txtC tres">
+            <a href="#" id="open" class="btn entero">Copia e inserta en la web</a>
+          </td>
+        </tr>
+      </table>
+      <div id="overlay"></div>
+      <div id="info">
+        <div id="results">
+            <div id="texto-contenido"></div>
+            <p style="margin-top:20px; text-align:right;"><a id="close" class="btn">Cerrar</a></p>
+        </div>
+      </div>
+
+      <div class="clearfix">
+        <div style="width: 50%;" class="floatL">
+          <strong>Referencia al dólar (Gs.)</strong>
+          <table style="width: auto;">
+            <tr>
+              <td>2010<br><strong>4.700</strong></td>
+              <td>2011<br><strong>4.300</strong></td>
+              <td>2012<br><strong>4.700</strong></td>
+              <td>2013<br><strong>4.400</strong></td>
+              <td>2014<br><strong>4.500</strong></td>
+            </tr>
+          </table>
+        </div>
+
+        <div style="width: 25%;" class="floatL">
+          <strong> *Fuente de datos: </strong><br><a href="https://www.contrataciones.gov.py/datos/contratos"> Contratos</a> de la DNCP.
+        </div>
+
+        <div style="width: 25%;" class="floatR">
+          <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licencia Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a> <a href="http://datos.org.py">Datos.org.py</a><!--<br />Esta obra está bajo una <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Licencia Creative Commons Atribución 4.0 Internacional</a>!-->.
+        </div>
+      </div>
+
 
     </div>
 
@@ -172,7 +190,7 @@ $(document).ready(function() {
 
 function mostrarVentana(valor, scope){
         $('#texto-contenido').prepend( valor );
-       $('#overlay, #info').animate({'opacity':'0.7'}, 300, 'linear');
+        $('#overlay, #info').animate({'opacity':'0.7'}, 300, 'linear');
         $('#info').animate({'opacity':'1.00'},300,'linear');
         $('#overlay, #info').css('display','block');
         $('#info').css({'left':(($(document).width()/2)-($('#info').width()/2))});
@@ -312,10 +330,10 @@ chart.valueFormat(formato);
                 nv.tooltip.cleanup();
             });
             if(lugar == 'empresas'){
-                var contenido = '<div style="height:150px; overflow:auto;"><table><tr><td>Id llamado</td><td>Cod. Cont.</td><td>Moneda</td><td>Monto</td></tr>';
+                var contenido = '<div style="height:200px; overflow:auto;"><table><tr><th>Id llamado</th><th>Empresa</th><th>Institución</th><th>Fecha</th><th>Cod. Cont.</th><th>Moneda</th><th>Monto</th></tr>';
                 
                 for(var z in v_data[0].values[i].llamados){
-                    contenido += '<tr><td>'+v_data[0].values[i].llamados[z].id_llamado+'</td><td>'+v_data[0].values[i].llamados[z].codigo_contratacion+'</td><td>'+v_data[0].values[i].llamados[z].moneda_codigo+'</td><td>'+formato(v_data[0].values[i].llamados[z].monto_adjudicado*1)+'</td></tr>';
+                    contenido += '<tr><td>'+v_data[0].values[i].llamados[z].id_llamado+'</td><td>-</td><td>-</td><td>-</td><td>'+v_data[0].values[i].llamados[z].codigo_contratacion+'</td><td>'+v_data[0].values[i].llamados[z].moneda_codigo+'</td><td>'+formato(v_data[0].values[i].llamados[z].monto_adjudicado*1)+'</td></tr>';
                 }
                     
                 contenido += '</table></div>';

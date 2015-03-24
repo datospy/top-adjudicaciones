@@ -79,7 +79,7 @@ input[type="color"],
 textarea {
   height: 100px;
   resize: vertical;
-  width: 220px; }
+  width: 95%; }
 
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   textarea {

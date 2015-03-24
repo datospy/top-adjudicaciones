@@ -175,9 +175,10 @@ table {
   .tabs li {
     display: inline-block;
     list-style: none;
-    font-size: 20px; }
+    font-size: 18px; }
     .tabs li a:link, .tabs li a:visited {
-      padding: 20px 40px;
+      cursor: pointer;
+      padding: 15px 40px;
       width: 450px;
       border: 1px solid #FFF;
       display: block;
@@ -218,19 +219,25 @@ svg {
   height: 100%;
   width: 100%; }
 
-.tips td {
+
+.ayuda td.uno {
   width: 265px;
   padding: 10px 10px 10px 70px;
-  font-size: 16px; }
-  .tips td:nth-child(1) {
-    background: #EEE url("../images/icon-1.png") no-repeat 10px 7px; }
-  .tips td:nth-child(2) {
-    background: #EEE url("../images/icon-2.png") no-repeat 10px 7px; }
-  .tips td:nth-child(3) {
-    background-color: #EEE;
-    width: 250px;
-    padding: 10px;
-    vertical-align: middle; }
+  font-size: 16px;
+  background: #EEE url("../images/icon-1.png") no-repeat 10px 7px; }
+.ayuda td.dos {
+  width: 265px;
+  padding: 10px 10px 10px 70px;
+  font-size: 16px;
+  background: #EEE url("../images/icon-2.png") no-repeat 10px 7px; }
+.ayuda td.tres {
+  width: 265px;
+  padding: 10px 10px 10px 70px;
+  font-size: 16px;
+  background-color: #EEE;
+  width: 250px;
+  padding: 10px;
+  vertical-align: middle; }
 
 a.btn:link, a.btn:visited {
   padding: 10px 30px;
@@ -263,7 +270,7 @@ a.btn.entero {
 #info {
   margin: auto;
   padding: 20px;
-  width: 400px;
+  width: 700px;
   background: #fff;
   box-shadow: 0 4px 16px #999;
   z-index: 51;
@@ -272,9 +279,28 @@ a.btn.entero {
   display: none; }
 
 #results {
-  width: 400px; }
+  width: 700px; }
 
+#results a{
+  cursor: pointer !important;
+  background-color: transparent !important;
+}
+
+#results td{
+  font-size: 14px;
+}
+
+.custom-combobox{
+  position: relative;
+}
+.custom-combobox .ui-button.ui-widget.ui-state-default.ui-button-icon-only.custom-combobox-toggle.ui-corner-right{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
 .ui-state-default {
+  font-family: Arial, Helvetica, sans-serif !important;
   color: #666;
   font-weight: normal;
   font-size: 12px !important;
@@ -284,6 +310,7 @@ a.btn.entero {
   margin-left: 2px;
   background-color: #FFF;
   background-image: none;
+  border: 1px solid #BBB;
   border-radius: 4px 4px 4px 4px;
   -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.15) inset, 0 1px 0 #fff;
   box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.15) inset, 0 1px 0 #fff; }
@@ -291,10 +318,40 @@ a.btn.entero {
 .ui-button.ui-state-default {
   width: 10px !important;
   padding: 2px !important;
-  height: 10px !important; }
+  height: 10px !important; 
+  border: none !important;
+  box-shadow: none !important;
+  top: 3px !important;
+  }
 
 .ui-autocomplete.ui-front.ui-menu.ui-widget.ui-widget-content {
   width: 600px !important; }
+
+.ui-widget label{
+  font-size: 16px !important;
+}
+.ui-icon-triangle-1-s{
+  background-position: -243px 2px;
+}
+.ui-widget{
+  text-align: left !important;
+  font-size: 13px !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+.ui-widget .ui-menu-item{
+  border: none !important;
+  font-weight: normal !important;
+  background-image: none !important;
+  background-color: #FFF !important;
+  color: #333;
+}
+.ui-widget .ui-menu-item:hover{
+  font-weight: normal !important;
+  background-image: none !important;
+  background-color: #3662D9 !important;
+  color: #FFF !important;
+  border: none !important;
+}
 
 /*===================================================            
                      BOTTOM                                                     
