@@ -30,7 +30,6 @@ if($lugar == 'convocante'){
 }elseif($lugar == 'tipo'){
     $v_query = "SELECT DISTINCT a.tipo_procedimiento_nombre, a.tipo_procedimiento_id
                         FROM (
-
                         SELECT DISTINCT tipo_procedimiento_nombre, tipo_procedimiento_id
                         FROM  `contratos` 
                         UNION 

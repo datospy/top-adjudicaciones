@@ -63,16 +63,17 @@ while ($fila = mysql_fetch_assoc($v_result)) {
     $fila = array_map("utf8_encode",$fila);
     $fila['llamados'] = array();
     if($lugar == 'empresas'){
-        $v_query = "select a.* from (select a.codigo_contratacion, a.id_llamado, a.moneda_codigo, a.monto_adjudicado from contratos a where 
+        $v_query = "select a.* from 
+            (select DATE(a.fecha_firma_contrato) fecha, a.convocante_nombre, a.codigo_contratacion, a.id_llamado, a.moneda_codigo, a.monto_adjudicado from contratos a where 
                             estado_codigo = 'ADJ' AND (anho BETWEEN $anio_inicio and $anio_fin) $filtro1 and a.proveedor_razon_social = \"".$fila['label']."\"
                         union all
-                        select a.codigo_contratacion, a.id_llamado, a._moneda, a.monto_adjudicado from `contratos2012-2014` a where 
+                        select DATE(a.fecha_firma_contrato), a.convocante, a.codigo_contratacion, a.id_llamado, a._moneda, a.monto_adjudicado from `contratos2012-2014` a where 
                         _estado = 'ADJ' AND (anho BETWEEN $anio_inicio and $anio_fin) $filtro2 and a.razon_social = \"".$fila['label']."\"
                         ) a order by a.monto_adjudicado";
         $v_result2 = mysql_query($v_query);
         //echo $v_query;
         while ($fila2 = mysql_fetch_assoc($v_result2)) {
-            $fila['llamados'][] = $fila2;
+            $fila['llamados'][] = array_map("utf8_encode",$fila2);
         }
         //print_r($fila);
     }

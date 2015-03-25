@@ -124,16 +124,16 @@ Se puede visualizar la suma (en millones de guaranies) de todas las adjudicacion
                 <svg style="height:700px"></svg>
             </div>
             <!-- graficos -->
-
+            <p style='font-size: 12px;'>*Los montos están expresados en millones de guaranies.</p>
         </div>
-
+        
 
         <table class="ayuda mb20 mt20">
         <tr>
           <td class="uno">Podés filtrar por Institución, Categoría, Procedimiento e indicar el rango de fecha.</td>
           <td class="dos">Mirá el detalle de cada información pasando el cursor por cada barra.</td>
           <td class="txtC tres">
-            <a href="#" id="open" class="btn entero">Copia e inserta en la web</a>
+            <a href="#txtC" id="open" class="btn entero">Copia e inserta en la web</a>
           </td>
         </tr>
       </table>
@@ -178,7 +178,7 @@ Se puede visualizar la suma (en millones de guaranies) de todas las adjudicacion
 $(document).ready(function() {
     
     $("#open").click(function(){
-        mostrarVentana('<p>Copie el siguiente código:</p><textarea name=""  cols="50" rows="10"><div class="wrap1" style=" width: 3000px;height: 600px;padding: 0;overflow: hidden;"><iframe frameborder="0" id="frame" scrolling="no" src="http://visualizaciones.datos.org.py/top-adjudicaciones/" style="  -ms-zoom: 0.5;-ms-transform-origin: 0 0;-moz-transform: scale(0.5);-moz-transform-origin: 0px 50px;-o-transform: scale(0.5);-o-transform-origin: 0px 50px;-webkit-transform: scale(0.5);-webkit-transform-origin: 0 0;width: 1800px;height: 1200px;overflow: hidden;"></iframe></div></textarea>',$(this));
+        mostrarVentana('<p>Copie el siguiente código:</p><textarea name=""  cols="50" rows="10"><div class="wrap1" style=" width: 3000px;height: 600px;padding: 0;overflow: hidden;"><iframe frameborder="0" id="frame" scrolling="no" src="http://visualizaciones.datos.org.py/top-adjudicaciones/#tabs" style="  -ms-zoom: 0.5;-ms-transform-origin: 0 0;-moz-transform: scale(0.5);-moz-transform-origin: 0px 50px;-o-transform: scale(0.5);-o-transform-origin: 0px 50px;-webkit-transform: scale(0.5);-webkit-transform-origin: 0 0;width: 1800px;height: 1200px;overflow: hidden;"></iframe></div></textarea>',$(this));
       });
     $('#close').click(function(){
       $('#overlay, #info').animate({'opacity':'0'}, 300, 'linear', function(){
@@ -330,10 +330,10 @@ chart.valueFormat(formato);
                 nv.tooltip.cleanup();
             });
             if(lugar == 'empresas'){
-                var contenido = '<div style="height:200px; overflow:auto;"><table><tr><th>Id llamado</th><th>Empresa</th><th>Institución</th><th>Fecha</th><th>Cod. Cont.</th><th>Moneda</th><th>Monto</th></tr>';
+                var contenido = '<div style="height:200px; overflow:auto;"><table style=" font-size:10px;"><tr><th>Id llamado</th><th>Institución</th><th style="width:56px;">Fecha</th><th>Cod. Cont.</th><th>Moneda</th><th>Monto</th></tr>';
                 
                 for(var z in v_data[0].values[i].llamados){
-                    contenido += '<tr><td>'+v_data[0].values[i].llamados[z].id_llamado+'</td><td>-</td><td>-</td><td>-</td><td>'+v_data[0].values[i].llamados[z].codigo_contratacion+'</td><td>'+v_data[0].values[i].llamados[z].moneda_codigo+'</td><td>'+formato(v_data[0].values[i].llamados[z].monto_adjudicado*1)+'</td></tr>';
+                    contenido += '<tr><th>'+v_data[0].values[i].llamados[z].id_llamado+'</th><th>'+v_data[0].values[i].llamados[z].convocante_nombre+'</th><th >'+v_data[0].values[i].llamados[z].fecha+'</th><th>'+v_data[0].values[i].llamados[z].codigo_contratacion+'</th><th>'+v_data[0].values[i].llamados[z].moneda_codigo+'</th><th>'+formato(v_data[0].values[i].llamados[z].monto_adjudicado*1)+'</th></tr>';
                 }
                     
                 contenido += '</table></div>';
